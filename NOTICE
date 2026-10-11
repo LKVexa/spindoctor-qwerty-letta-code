@@ -1,0 +1,16 @@
+SpinDoctor Qwerty mod for Letta Code (spindoctor-qwerty-letta-code)
+Copyright (C) 2026 RUSSELL PHILIP SMITHSON <russellsmithson77@outlook.com>
+Licensed under the GNU General Public License v3.0 or later (GPL-3.0-or-later); see LICENSE.
+
+Author: RUSSELL PHILIP SMITHSON <russellsmithson77@outlook.com>
+
+This product bundles the SpinDoctor Qwerty engine 1.1.0, a pure-Python (standard library only) port of the
+SpinDoctor 3.1.2 quantum-circuit simulator semantics (update 3.1.2-298-20261010), by the same author.
+
+SpinDoctor is a CLASSICAL simulator: it runs FP64 arithmetic on an ordinary computer. It is not a quantum computer,
+does not connect to quantum hardware, and claims no quantum speed-up or quantum advantage.
+
+Third-party names (host applications, file formats, protocols) are trademarks of their respective owners and are used
+only to describe compatibility. No third-party code is vendored in this repository.
+
+Letta Code is a product of Letta, Inc. This project is not affiliated with or endorsed by Letta.
