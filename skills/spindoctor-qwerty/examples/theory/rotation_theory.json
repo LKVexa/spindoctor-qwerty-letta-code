@@ -1,0 +1,4 @@
+{"title": "RY rotation theory",
+ "hypothesis": "RY(theta) on |0> gives P(1) = sin^2(theta/2); for theta = pi/3 that is 0.25.",
+ "prediction": "P(1) = 0.25 +/- 0.03 over 4000 shots.",
+ "script": ["q.circuit new ryth 1", "q.circuit add ry 1.0471975511965976 0", "q.circuit run shots 4000 basis z"]}

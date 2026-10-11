@@ -1,0 +1,7 @@
+Theory: A single Hadamard gate applied to |0> puts the qubit in an equal superposition,
+so measuring in the Z basis gives 0 and 1 with equal probability (50% each).
+Prediction: over 2000 shots, P(1) = 0.5 within +/- 0.04.
+Script:
+q.circuit new had 1
+q.circuit add h 0
+q.circuit run shots 2000 basis z
