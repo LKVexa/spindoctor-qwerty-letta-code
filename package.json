@@ -1,0 +1,42 @@
+{
+  "name": "spindoctor-qwerty-letta-code",
+  "version": "1.1.0",
+  "private": true,
+  "type": "module",
+  "description": "SpinDoctor 3.1.2 quantum-circuit SIMULATOR mod for Letta Code: 6 tools + /spindoctor, 1-298 logical qubits, 241 presets, q.folder, theory testing, TXT/PDF/JSON/CSV reports. Bundled stdlib-only Python engine; classical FP64, not a quantum computer.",
+  "author": "RUSSELL PHILIP SMITHSON <russellsmithson77@outlook.com>",
+  "license": "GPL-3.0-or-later",
+  "homepage": "https://github.com/LKVexa/spindoctor-qwerty-letta-code",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LKVexa/spindoctor-qwerty-letta-code.git"
+  },
+  "keywords": [
+    "letta-package",
+    "letta-mod",
+    "letta-code",
+    "quantum",
+    "quantum-circuit",
+    "simulator",
+    "spindoctor"
+  ],
+  "files": [
+    "README.md",
+    "MOD.md",
+    "LICENSE",
+    "NOTICE",
+    "COPYRIGHT",
+    "mods",
+    "skills"
+  ],
+  "letta": {
+    "manifestVersion": 1,
+    "mods": [
+      "mods/spindoctor-qwerty.mjs"
+    ],
+    "capabilities": [
+      "tools",
+      "commands"
+    ]
+  }
+}
