@@ -1,0 +1,13 @@
+{
+  "action": "run",
+  "source": "text",
+  "text": "Theory: a Hadamard on qubit 0 followed by CNOT(0,1) makes a Bell state, so only 00 and 11 appear, about half each.",
+  "hypothesis": "H(0) then CX(0,1) prepares the Bell state (|00> + |11>)/sqrt(2)",
+  "prediction": "P(00) = P(11) = 0.5 (+/- 0.05 over 4000 shots); P(01) = P(10) = 0",
+  "script": "q.circuit new bellth 2\nq.circuit add h 0\nq.circuit add cx 0 1\nq.circuit run shots 4000 basis z",
+  "checks": [
+    {"kind": "probability", "outcome": "00", "expected": 0.5, "tolerance": 0.05},
+    {"kind": "probability", "outcome": "11", "expected": 0.5, "tolerance": 0.05},
+    {"kind": "probability", "outcome": "01", "expected": 0.0, "tolerance": 0.01}
+  ]
+}
