@@ -1,0 +1,3339 @@
+SpinDoctor 3.1.2
+See SpinDoctor-3.1.2-Release-Notes.txt for the 3.1.2 audit fixes: folder runs list skipped files, accept .qasm2/.circuit, explain empty or prose .txt inputs, and keep q.folder/q.sequence status polling reports compact.
+See HANDGUIDE.md (or HANDGUIDE.pdf in the release folder) for a plain-language user guide.
+See SpinDoctor-3.1.1-Release-Notes.txt for CSV report companions, measurement fitting and CSV gate-list simulation.
+See SpinDoctor-3.1.1-CSV-Input-Guide.txt for selecting measurement columns, fitting equations and importing CSV circuits.
+Earlier version notes below are preserved as history.
+
+SPINDOCTOR 3.1.0 PRESET EXECUTION UPDATE
+Direct built-in circuit presets now create and run 1,024 shots by default.
+Examples: q.circuit preset bell; q.circuit preset qft 5 shots 2048 basis x.
+Explicit shots and basis override defaults; run=false defines without running.
+The existing maximum of 100,000 is retained. Catalog sampling presets default
+to1,024; a collapsing measurement still requires one shot. Deterministic
+mathematical calculations and resource estimates do not execute shots.
+Earlier guide/source descriptions below describe the original source record;
+the current native registry and actual queued/completed returns are authoritative.
+
+SPINDOCTOR PRESELECTED COMMAND CATALOGUE
+Current release 3.0.4-hardened; original design prepared 2026-10-09
+
+241 preserved presets. Native runtime checks determine installed availability. Historical design counts: 144 observed, 97 proposed.
+
+HOW TO USE THIS FILE
+This is the installed preset library plus historical design labels. Use q.preset list and q.help for runtime availability. Unsupported qc-198 remains visible with a specific explanation. Proposed labels below describe the original design and do not disable installed implementations.
+Use SPINDOCTOR_PRESETS.json for machine-readable menu records, SPINDOCTOR_BUILD_BRIEF.txt for the implementation handoff, and SPINDOCTOR_QUANTUM_GUIDE.txt for formulas and article corrections.
+A preset is a sequence of ordinary commands. The UI runner must await asynchronous completion between dependent commands; a status command alone does not wait. If entering commands manually, check status until the job completes before continuing.
+Fresh-circuit presets may select a new active circuit. Use unique names or clone on collisions; preserve user circuits/checkpoints. Read prerequisites before commands that prepare or modify state.
+q0 is the least-significant bit; display |q(n-1)...q0>. Angles in existing commands are numeric radians. Exact predicted probabilities and fluctuating shot counts are separate.
+The 500-trillion address family contains independent single-qubit states. Only the selected joint tranche/circuit is calculated for an entangling command. Dense 29-qubit complex128 states need 8 GiB before work buffers; the documented default cap is 512 MiB.
+Menu filtering should distinguish observed syntax, proposed extension, independent-state versus joint-register scope, backend prerequisites, and numerical/approximate/theory results.
+Downloadable TXT returns should identify nonmeasurement commands and retain scope, seeds/counters, actual work, timing and completion state.
+
+CURRENT CIRCUIT STORAGE COMMANDS
+q.circuit capacity [N] (default 64; range 1..1024)
+q.circuit prune presets [KEEP] (oldest preset-owned circuits only; user circuits retained)
+
+CATEGORY COUNTS
+Procedural grid: 9
+Tranche controls: 12
+Single-qubit gates: 40
+Two-qubit gates and entanglement: 35
+Multi-qubit circuits: 20
+Algorithm demonstrations: 15
+State and matrix mathematics: 22
+Joint-state analysis: 14
+Noise and mitigation: 12
+Error-correction demonstrations: 10
+Compilation and gate synthesis: 10
+Memory and resource estimates: 12
+Alternative computation models: 8
+Guided lessons and article corrections: 8
+Circuit presets and controls: 10
+Large structured-register demonstrations: 3
+Algorithm extensions: 1
+
+PROPOSED GRAMMAR CONTRACT
+options: Each proposed extension command uses family action followed by key=value arguments. Quote expressions containing spaces. Square brackets represent typed lists or matrices; parse their contents rather than executing them as host-language code. A quoted gates="...;..." or left="...;..." value is one safely parsed gate-sequence field; its semicolons are not terminal macro separators or shell separators.
+complexNumbers: Accept numeric decimals, rational constants, i, sqrt(...), exp(i*theta), and pi through a restricted mathematical expression parser. Reject unsafe names, code evaluation and nonfinite values.
+qMath: q.math accepts supplied vectors, matrices or gate names. Return exact algebra when independently verified; otherwise label numerical approximations and state tolerances.
+qQuery: q.query reads the selected circuit's completed premeasurement state. Enforce output bounds. Pauli strings use explicit labels such as X0 X1. A requested qubit-list order must be shown in the output.
+qNoise: q.noise accepts explicit states/circuits and channel conventions. Build physical density matrices using Kraus maps or equivalent verified formulas. No unitary-only backend may claim to produce mixed-state evolution.
+qQec: q.qec performs ideal code demonstrations with explicit generators, error sets and recovery assumptions. Educational code models do not imply hardware fault tolerance.
+qCompile: q.compile checks identities, classifications and metrics under specified conventions. Numerical synthesis requires a real algorithm and independent matrix-error verification.
+qResource: q.resource performs explicit arithmetic under declared dtype, representation, cap and overhead assumptions. No estimates imply successful allocations or hardware capacity.
+qModel: q.model requires explicit Hamiltonian and energy conventions. Universal model equivalence is separate from specific hardware claims.
+qLesson: q.lesson returns explanations. Browse primary sources for current standards, device claims or contested claims; mark conjectures and assumptions.
+qAlgorithm: q.algorithm expands a declared small algorithm into explicit gates and initial states before simulation; declare oracle, eigenstate, controlled-power mapping, swaps and bit order. Report ideal probabilities separately from samples.
+
+========================================================================
+PROCEDURAL GRID
+========================================================================
+
+qc-001  Create the SpinDoctor procedural grid
+Availability: observed-syntax
+Backend: procedural-grid
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.
+Description: Creates 500,000,000,000,000 addressable independent one-qubit state descriptions; this is not one entangled quantum register.
+Commands (in order):
+  q.prepare grid 20000000 25000000
+
+qc-002  Inspect procedural address zero
+Availability: observed-syntax
+Backend: procedural-grid
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.
+Description: Inspect the analytic state stored or generated for address 0.
+Commands (in order):
+  q.state 0
+
+qc-003  Rotate every procedural qubit
+Availability: observed-syntax
+Backend: procedural-grid
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.
+Description: Apply the same single-qubit Y rotation independently across the address family.
+Commands (in order):
+  q.gate ry 0.2 all
+
+qc-004  Set family migration parameter t=1
+Availability: observed-syntax
+Backend: procedural-grid
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.
+Description: Set the procedural state family's migration variable t to 1. This t is a family variable, not the quantum T phase gate.
+Commands (in order):
+  q.migrate t 1
+
+qc-005  Verify procedural state rule
+Availability: observed-syntax
+Backend: procedural-grid
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.
+Description: Check the compact analytic description of the state family.
+Commands (in order):
+  q.verify rule
+
+qc-006  Sample procedural rule errors
+Availability: observed-syntax
+Backend: procedural-grid
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.
+Description: Verify 10,240 sampled addresses and show mismatches; this does not verify every address.
+Commands (in order):
+  q.verify samples 10240 errors-only
+
+qc-007  Measure address zero in X
+Availability: observed-syntax
+Backend: procedural-grid
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.
+Description: Generate or request 100 X-basis outcomes for independent address 0.
+Commands (in order):
+  q.measure 0 basis x shots 100
+
+qc-008  Inspect procedural session
+Availability: observed-syntax
+Backend: procedural-grid
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.
+Description: Display the procedural session status.
+Commands (in order):
+  q.status
+
+qc-009  Export procedural descriptor
+Availability: observed-syntax
+Backend: procedural-grid
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.
+Description: Export the analytic descriptor, not a 2^(500 trillion)-length joint statevector.
+Commands (in order):
+  q.export descriptor
+
+========================================================================
+TRANCHE CONTROLS
+========================================================================
+
+qc-010  Create a 29-qubit zero tranche
+Availability: observed-syntax
+Backend: tranche-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.
+Description: Create a 29-qubit product state. Memory growth depends on later entanglement and factor-block merging.
+Commands (in order):
+  q.tranche prepare 29 zero
+
+qc-011  Seed tranche from address zero
+Availability: observed-syntax
+Backend: tranche-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.
+Description: Use the existing address-to-tranche command; inspect its implementation before assuming how many source addresses it includes.
+Commands (in order):
+  q.tranche from 0
+
+qc-012  Inspect basis-zero amplitude
+Availability: observed-syntax
+Backend: tranche-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.
+Description: Read one computational-basis amplitude from the selected tranche.
+Commands (in order):
+  q.tranche state 0
+
+qc-013  Inspect tranche qubit zero
+Availability: observed-syntax
+Backend: tranche-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.
+Description: Inspect the reduced state of qubit 0 in the selected tranche.
+Commands (in order):
+  q.tranche spin 0
+
+qc-014  Measure tranche qubit zero
+Availability: observed-syntax
+Backend: tranche-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.
+Description: Request 100 non-collapsing Z-basis shots for selected qubit 0.
+Commands (in order):
+  q.tranche measure 0 basis z shots 100
+
+qc-015  Collapse tranche qubit zero
+Availability: observed-syntax
+Backend: tranche-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.
+Description: Perform exactly one collapsing measurement; the selected tranche changes.
+Commands (in order):
+  q.tranche measure 0 basis z shots 1 collapse
+
+qc-016  Inspect tranche status
+Availability: observed-syntax
+Backend: tranche-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.
+Description: Inspect the selected tranche and any active job.
+Commands (in order):
+  q.tranche status
+
+qc-017  Set tranche memory cap
+Availability: observed-syntax
+Backend: tranche-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.
+Description: Set a 512 MiB cap; this is a limit, not a promise to fit any 29-qubit computation.
+Commands (in order):
+  q.tranche memory 512
+
+qc-018  Export tranche descriptor
+Availability: observed-syntax
+Backend: tranche-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.
+Description: Export the selected tranche using the existing export format.
+Commands (in order):
+  q.tranche export
+
+qc-019  Save factorized tranche
+Availability: observed-syntax
+Backend: tranche-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.
+Description: Save the selected tranche without requesting a dense expansion.
+Commands (in order):
+  q.tranche save
+
+qc-020  Cancel tranche work
+Availability: observed-syntax
+Backend: tranche-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.
+Description: Cancel the active tranche job; inspect status afterward.
+Commands (in order):
+  q.tranche cancel
+
+qc-021  Show tranche help
+Availability: observed-syntax
+Backend: tranche-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.
+Description: Display the implementation's current tranche command reference.
+Commands (in order):
+  q.tranche help
+
+========================================================================
+SINGLE-QUBIT GATES
+========================================================================
+
+qc-022  Identity on zero
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |0>.
+Commands (in order):
+  q.circuit new preset_022 1
+  q.circuit input 0
+  q.circuit add i 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+  q.circuit state 0
+
+qc-023  X flips zero
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |1>.
+Commands (in order):
+  q.circuit new preset_023 1
+  q.circuit input 0
+  q.circuit add x 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+  q.circuit state 1
+
+qc-024  X flips one
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |0>.
+Commands (in order):
+  q.circuit new preset_024 1
+  q.circuit input 1
+  q.circuit add x 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-025  Y on zero
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: i|1>; Z-basis outcome 1 with probability 1.
+Commands (in order):
+  q.circuit new preset_025 1
+  q.circuit input 0
+  q.circuit add y 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-026  Y on one
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: -i|0>; Z-basis outcome 0 with probability 1.
+Commands (in order):
+  q.circuit new preset_026 1
+  q.circuit input 1
+  q.circuit add y 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-027  Z on one
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: -|1>; global phase does not change isolated-qubit measurement probabilities.
+Commands (in order):
+  q.circuit new preset_027 1
+  q.circuit input 1
+  q.circuit add z 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-028  Hadamard on zero
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|0>+|1>)/sqrt(2); PZ(0)=PZ(1)=1/2.
+Commands (in order):
+  q.circuit new preset_028 1
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+  q.circuit spin 0
+
+qc-029  Hadamard on one
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|0>-|1>)/sqrt(2); PZ(0)=PZ(1)=1/2.
+Commands (in order):
+  q.circuit new preset_029 1
+  q.circuit input 1
+  q.circuit add h 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-030  Measure plus in X
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: X-basis outcome 0 with probability 1.
+Commands (in order):
+  q.circuit new preset_030 1
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit show
+  q.circuit run shots 1024 basis x
+  q.circuit status
+  q.circuit result
+
+qc-031  Measure minus in X
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: X-basis outcome 1 with probability 1.
+Commands (in order):
+  q.circuit new preset_031 1
+  q.circuit input 1
+  q.circuit add h 0
+  q.circuit show
+  q.circuit run shots 1024 basis x
+  q.circuit status
+  q.circuit result
+
+qc-032  S creates positive Y state
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|0>+i|1>)/sqrt(2); Y-basis outcome 0 with probability 1.
+Commands (in order):
+  q.circuit new preset_032 1
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add s 0
+  q.circuit show
+  q.circuit run shots 1024 basis y
+  q.circuit status
+  q.circuit result
+  q.circuit spin 0
+
+qc-033  S-dagger creates negative Y state
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|0>-i|1>)/sqrt(2); Y-basis outcome 1 with probability 1.
+Commands (in order):
+  q.circuit new preset_033 1
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add sdg 0
+  q.circuit show
+  q.circuit run shots 1024 basis y
+  q.circuit status
+  q.circuit result
+
+qc-034  T creates a magic-state example
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|0>+exp(i*pi/4)|1>)/sqrt(2); non-stabilizer pure state.
+Commands (in order):
+  q.circuit new preset_034 1
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add t 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+  q.circuit spin 0
+
+qc-035  T-dagger phase example
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|0>+exp(-i*pi/4)|1>)/sqrt(2).
+Commands (in order):
+  q.circuit new preset_035 1
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add tdg 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-036  Square root of X
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: [(1+i)/2,(1-i)/2] in the ordered basis |0>,|1>.
+Commands (in order):
+  q.circuit new preset_036 1
+  q.circuit input 0
+  q.circuit add sx 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-037  Inverse square root of X
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: [(1-i)/2,(1+i)/2] in the ordered basis |0>,|1>.
+Commands (in order):
+  q.circuit new preset_037 1
+  q.circuit input 0
+  q.circuit add sxdg 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-038  RX half turn
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: -i|1> within numerical tolerance.
+Commands (in order):
+  q.circuit new preset_038 1
+  q.circuit input 0
+  q.circuit add rx 3.141592653589793 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-039  RX quarter turn
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|0>-i|1>)/sqrt(2).
+Commands (in order):
+  q.circuit new preset_039 1
+  q.circuit input 0
+  q.circuit add rx 1.5707963267948966 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-040  RX sixty degrees
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: sqrt(3)|0>/2-i|1>/2; PZ(1)=1/4.
+Commands (in order):
+  q.circuit new preset_040 1
+  q.circuit input 0
+  q.circuit add rx 1.0471975511965976 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-041  RY half turn
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |1> within numerical tolerance.
+Commands (in order):
+  q.circuit new preset_041 1
+  q.circuit input 0
+  q.circuit add ry 3.141592653589793 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-042  RY quarter turn
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|0>+|1>)/sqrt(2).
+Commands (in order):
+  q.circuit new preset_042 1
+  q.circuit input 0
+  q.circuit add ry 1.5707963267948966 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-043  RY sixty degrees
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: sqrt(3)|0>/2+|1>/2; PZ(1)=1/4.
+Commands (in order):
+  q.circuit new preset_043 1
+  q.circuit input 0
+  q.circuit add ry 1.0471975511965976 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-044  RZ quarter turn on plus
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: [exp(-i*pi/4),exp(i*pi/4)]/sqrt(2).
+Commands (in order):
+  q.circuit new preset_044 1
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add rz 1.5707963267948966 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-045  P quarter turn on plus
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|0>+i|1>)/sqrt(2).
+Commands (in order):
+  q.circuit new preset_045 1
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add p 1.5707963267948966 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-046  P versus RZ global-phase check
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: exp(i*pi/4)|+>; preserve the actual phase in exported amplitudes.
+Commands (in order):
+  q.circuit new preset_046 1
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add p 1.5707963267948966 0
+  q.circuit add rz -1.5707963267948966 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-047  Hadamard cancellation
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |0>.
+Commands (in order):
+  q.circuit new preset_047 1
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add h 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-048  S squared equals Z
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |->.
+Commands (in order):
+  q.circuit new preset_048 1
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add s 0
+  q.circuit add s 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-049  T squared equals S
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |+i>.
+Commands (in order):
+  q.circuit new preset_049 1
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add t 0
+  q.circuit add t 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-050  T followed by inverse
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |+>.
+Commands (in order):
+  q.circuit new preset_050 1
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add t 0
+  q.circuit add tdg 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-051  H Z H implements X
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |1>.
+Commands (in order):
+  q.circuit new preset_051 1
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add z 0
+  q.circuit add h 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-052  H X H implements Z
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: -|1>.
+Commands (in order):
+  q.circuit new preset_052 1
+  q.circuit input 1
+  q.circuit add h 0
+  q.circuit add x 0
+  q.circuit add h 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-053  Phase becomes probability
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: PZ(1)=1/4; PZ(0)=3/4.
+Commands (in order):
+  q.circuit new preset_053 1
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add p 1.0471975511965976 0
+  q.circuit add h 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-054  RY inverse cancellation
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |0> within numerical tolerance.
+Commands (in order):
+  q.circuit new preset_054 1
+  q.circuit input 0
+  q.circuit add ry 0.2 0
+  q.circuit add ry -0.2 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-055  U identity parameters
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |0>, assuming the documented U(theta,phi,lambda) convention.
+Commands (in order):
+  q.circuit new preset_055 1
+  q.circuit input 0
+  q.circuit add u 0 0 0 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-056  U prepares arbitrary pure state
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: sqrt(3)|0>/2+exp(i*pi/4)|1>/2, under standard U convention.
+Commands (in order):
+  q.circuit new preset_056 1
+  q.circuit input 0
+  q.circuit add u 1.0471975511965976 0.7853981633974483 0 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+  q.circuit spin 0
+
+qc-057  Small-angle RX response
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: PZ(1)=sin(0.1)^2.
+Commands (in order):
+  q.circuit new preset_057 1
+  q.circuit input 0
+  q.circuit add rx 0.2 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-058  Small-angle RY response
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: PZ(1)=sin(0.1)^2; compare its phase with RX.
+Commands (in order):
+  q.circuit new preset_058 1
+  q.circuit input 0
+  q.circuit add ry 0.2 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-059  RZ leaves Z probabilities unchanged
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: PZ(0)=PZ(1)=1/2.
+Commands (in order):
+  q.circuit new preset_059 1
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add rz 0.2 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-060  Measure rotated state in X
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: PX(0)=(1+sqrt(3)/2)/2.
+Commands (in order):
+  q.circuit new preset_060 1
+  q.circuit input 0
+  q.circuit add ry 1.0471975511965976 0
+  q.circuit show
+  q.circuit run shots 1024 basis x
+  q.circuit status
+  q.circuit result
+
+qc-061  Measure rotated state in Y
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: PY(0)=(1-sqrt(3)/2)/2.
+Commands (in order):
+  q.circuit new preset_061 1
+  q.circuit input 0
+  q.circuit add rx 1.0471975511965976 0
+  q.circuit show
+  q.circuit run shots 1024 basis y
+  q.circuit status
+  q.circuit result
+
+========================================================================
+TWO-QUBIT GATES AND ENTANGLEMENT
+========================================================================
+
+qc-062  CNOT truth table input 00
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |00>.
+Commands (in order):
+  q.circuit new preset_062 2
+  q.circuit input 0
+  q.circuit add cx 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-063  CNOT truth table input 01
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |11>.
+Commands (in order):
+  q.circuit new preset_063 2
+  q.circuit input 1
+  q.circuit add cx 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-064  CNOT truth table input 10
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |10>.
+Commands (in order):
+  q.circuit new preset_064 2
+  q.circuit input 2
+  q.circuit add cx 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-065  CNOT truth table input 11
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |01>.
+Commands (in order):
+  q.circuit new preset_065 2
+  q.circuit input 3
+  q.circuit add cx 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-066  Reverse-control CNOT
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |11>; controls and targets are ordered operands.
+Commands (in order):
+  q.circuit new preset_066 2
+  q.circuit input 2
+  q.circuit add cx 1 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-067  Bell phi plus
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|00>+|11>)/sqrt(2); each individual reduced qubit is maximally mixed.
+Commands (in order):
+  q.circuit new preset_067 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+  q.circuit state 3
+  q.circuit spin 0
+
+qc-068  Bell phi minus
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|00>-|11>)/sqrt(2).
+Commands (in order):
+  q.circuit new preset_068 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit add z 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-069  Bell psi plus
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|01>+|10>)/sqrt(2).
+Commands (in order):
+  q.circuit new preset_069 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit add x 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-070  Bell psi minus
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|10>-|01>)/sqrt(2); equivalent to conventional psi-minus up to global phase.
+Commands (in order):
+  q.circuit new preset_070 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit add x 1
+  q.circuit add z 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-071  Bell correlation in X
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: X-basis bitstrings 00 and 11 with probability 1/2 each.
+Commands (in order):
+  q.circuit new preset_071 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis x
+  q.circuit status
+  q.circuit result
+
+qc-072  Bell anticorrelation in Y
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: Y-basis bitstrings 01 and 10 with probability 1/2 each.
+Commands (in order):
+  q.circuit new preset_072 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis y
+  q.circuit status
+  q.circuit result
+
+qc-073  Product superposition
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: All four Z-basis strings have probability 1/4; this pure state is separable.
+Commands (in order):
+  q.circuit new preset_073 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-074  Controlled-Y entangled phase
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|00>+i|11>)/sqrt(2).
+Commands (in order):
+  q.circuit new preset_074 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cy 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-075  CZ graph state
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|00>+|01>+|10>-|11>)/2.
+Commands (in order):
+  q.circuit new preset_075 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add cz 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-076  Controlled-H example
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |00>/sqrt(2)+|01>/2+|11>/2; ordered display is |q1 q0>.
+Commands (in order):
+  q.circuit new preset_076 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add ch 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-077  SWAP moves a basis excitation
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |10>.
+Commands (in order):
+  q.circuit new preset_077 2
+  q.circuit input 1
+  q.circuit add swap 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-078  SWAP moves a superposition
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |+> on q1 and |0> on q0.
+Commands (in order):
+  q.circuit new preset_078 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add swap 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-079  SWAP from three CNOTs
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |10>; compare with the native SWAP preset.
+Commands (in order):
+  q.circuit new preset_079 2
+  q.circuit input 1
+  q.circuit add cx 0 1
+  q.circuit add cx 1 0
+  q.circuit add cx 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-080  CNOT pair cancels
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |0> on q1 and |+> on q0.
+Commands (in order):
+  q.circuit new preset_080 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit add cx 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-081  CZ pair cancels
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |++>.
+Commands (in order):
+  q.circuit new preset_081 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add cz 0 1
+  q.circuit add cz 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-082  CP adds controlled phase
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: Only |11> acquires exp(i*pi/4); all Z-basis probabilities remain 1/4.
+Commands (in order):
+  q.circuit new preset_082 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add cp 0.7853981633974483 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-083  CP half turn equals CZ
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: The two-qubit graph state produced by CZ.
+Commands (in order):
+  q.circuit new preset_083 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add cp 3.141592653589793 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-084  CRX conditional half turn
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: -i|11>.
+Commands (in order):
+  q.circuit new preset_084 2
+  q.circuit input 1
+  q.circuit add crx 3.141592653589793 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-085  CRY conditional half turn
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |11>.
+Commands (in order):
+  q.circuit new preset_085 2
+  q.circuit input 1
+  q.circuit add cry 3.141592653589793 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-086  CRZ conditional relative phase
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|00>+exp(-i*pi/4)|01>)/sqrt(2); differs from CP on this input.
+Commands (in order):
+  q.circuit new preset_086 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add crz 1.5707963267948966 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-087  Controlled U with gamma phase
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: Control-1 branch gets exp(i*pi/4) under the standard CU(theta,phi,lambda,gamma) convention.
+Commands (in order):
+  q.circuit new preset_087 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cu 0 0 0 0.7853981633974483 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-088  RXX creates entanglement
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|00>-i|11>)/sqrt(2).
+Commands (in order):
+  q.circuit new preset_088 2
+  q.circuit input 0
+  q.circuit add rxx 1.5707963267948966 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-089  RYY creates entanglement
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|00>+i|11>)/sqrt(2).
+Commands (in order):
+  q.circuit new preset_089 2
+  q.circuit input 0
+  q.circuit add ryy 1.5707963267948966 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-090  RZZ on product plus
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: Even-parity amplitudes exp(-i*pi/4)/2; odd-parity amplitudes exp(i*pi/4)/2.
+Commands (in order):
+  q.circuit new preset_090 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add rzz 1.5707963267948966 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-091  RZX ordered operands
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|00>-i|10>)/sqrt(2) when the first operand is Z and second is X.
+Commands (in order):
+  q.circuit new preset_091 2
+  q.circuit input 0
+  q.circuit add rzx 1.5707963267948966 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-092  Bell disentangling inverse
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |00>.
+Commands (in order):
+  q.circuit new preset_092 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit add cx 0 1
+  q.circuit add h 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-093  Controlled phase interference
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: PZ(10)=3/4 and PZ(11)=1/4.
+Commands (in order):
+  q.circuit new preset_093 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add x 1
+  q.circuit add cp 1.0471975511965976 0 1
+  q.circuit add h 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-094  CNOT does not always entangle
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |++> remains separable.
+Commands (in order):
+  q.circuit new preset_094 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add cx 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-095  CNOT target minus kickback
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |-> on q0 and |-> on q1.
+Commands (in order):
+  q.circuit new preset_095 2
+  q.circuit input 2
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add cx 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-096  Bell state with non-Clifford phase
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|00>+exp(i*pi/4)|11>)/sqrt(2); entanglement alone does not identify simulation difficulty.
+Commands (in order):
+  q.circuit new preset_096 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit add t 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+========================================================================
+MULTI-QUBIT CIRCUITS
+========================================================================
+
+qc-097  Three-qubit GHZ
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|000>+|111>)/sqrt(2).
+Commands (in order):
+  q.circuit new preset_097 3
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit add cx 0 2
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-098  Four-qubit GHZ chain
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|0000>+|1111>)/sqrt(2).
+Commands (in order):
+  q.circuit new preset_098 4
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit add cx 1 2
+  q.circuit add cx 2 3
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-099  Five-qubit GHZ star
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|00000>+|11111>)/sqrt(2).
+Commands (in order):
+  q.circuit new preset_099 5
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit add cx 0 2
+  q.circuit add cx 0 3
+  q.circuit add cx 0 4
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-100  GHZ phase flip
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: (|000>-|111>)/sqrt(2).
+Commands (in order):
+  q.circuit new preset_100 3
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit add cx 0 2
+  q.circuit add z 2
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-101  GHZ X-basis parity
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: Only even-parity X-basis output strings occur.
+Commands (in order):
+  q.circuit new preset_101 3
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit add cx 0 2
+  q.circuit show
+  q.circuit run shots 1024 basis x
+  q.circuit status
+  q.circuit result
+
+qc-102  Three-qubit line cluster
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: A three-vertex line graph state; uniform Z-basis probabilities.
+Commands (in order):
+  q.circuit new preset_102 3
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add h 2
+  q.circuit add cz 0 1
+  q.circuit add cz 1 2
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-103  Four-qubit ring cluster
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: A four-vertex cycle graph state; uniform Z-basis probabilities.
+Commands (in order):
+  q.circuit new preset_103 4
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add h 2
+  q.circuit add h 3
+  q.circuit add cz 0 1
+  q.circuit add cz 1 2
+  q.circuit add cz 2 3
+  q.circuit add cz 3 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-104  Two independent Bell pairs
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: Four equiprobable strings: 0000,0011,1100,1111.
+Commands (in order):
+  q.circuit new preset_104 4
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit add h 2
+  q.circuit add cx 2 3
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-105  Toffoli active controls
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |111>.
+Commands (in order):
+  q.circuit new preset_105 3
+  q.circuit input 3
+  q.circuit add ccx 0 1 2
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-106  Toffoli inactive control
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |001>.
+Commands (in order):
+  q.circuit new preset_106 3
+  q.circuit input 1
+  q.circuit add ccx 0 1 2
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-107  Toffoli target reversal
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |011>.
+Commands (in order):
+  q.circuit new preset_107 3
+  q.circuit input 7
+  q.circuit add ccx 0 1 2
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-108  Fredkin controlled swap
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |101>.
+Commands (in order):
+  q.circuit new preset_108 3
+  q.circuit input 3
+  q.circuit add cswap 0 1 2
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-109  Fredkin inactive control
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |010>.
+Commands (in order):
+  q.circuit new preset_109 3
+  q.circuit input 2
+  q.circuit add cswap 0 1 2
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-110  Reversible AND truth branch
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: Output |010>; ancilla q2 stays 0 because q0 AND q1=0 for input q1q0=10.
+Commands (in order):
+  q.circuit new preset_110 3
+  q.circuit input 2
+  q.circuit add ccx 0 1 2
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-111  Compute and uncompute an ancilla
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: Ancilla q2 returns to |0>; |011> gets a negative phase.
+Commands (in order):
+  q.circuit new preset_111 3
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add ccx 0 1 2
+  q.circuit add z 2
+  q.circuit add ccx 0 1 2
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-112  Classical three-bit parity
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |0101>; input q2q1q0=101 has even parity.
+Commands (in order):
+  q.circuit new preset_112 4
+  q.circuit input 5
+  q.circuit add cx 0 3
+  q.circuit add cx 1 3
+  q.circuit add cx 2 3
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-113  Quantum three-bit parity
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: q3 contains the parity of q2q1q0 coherently; eight allowed strings.
+Commands (in order):
+  q.circuit new preset_113 4
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add h 2
+  q.circuit add cx 0 3
+  q.circuit add cx 1 3
+  q.circuit add cx 2 3
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-114  Uniform five-qubit register
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: All 32 output strings have probability 1/32; no entanglement.
+Commands (in order):
+  q.circuit new preset_114 5
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add h 2
+  q.circuit add h 3
+  q.circuit add h 4
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-115  Single-excitation transfer
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: |100>.
+Commands (in order):
+  q.circuit new preset_115 3
+  q.circuit input 1
+  q.circuit add swap 0 1
+  q.circuit add swap 1 2
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-116  Three-qubit bit-flip encoding
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: sqrt(3)|000>/2+|111>/2; encoding alone does not perform recovery.
+Commands (in order):
+  q.circuit new preset_116 3
+  q.circuit input 0
+  q.circuit add ry 1.0471975511965976 0
+  q.circuit add cx 0 1
+  q.circuit add cx 0 2
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+========================================================================
+ALGORITHM DEMONSTRATIONS
+========================================================================
+
+qc-117  Deutsch constant-zero oracle
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: Input qubit q0 measures 0; the oracle is identity.
+Commands (in order):
+  q.circuit new preset_117 2
+  q.circuit input 2
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add h 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-118  Deutsch balanced oracle
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: Input qubit q0 measures 1.
+Commands (in order):
+  q.circuit new preset_118 2
+  q.circuit input 2
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add cx 0 1
+  q.circuit add h 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-119  Deutsch-Jozsa constant oracle
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: Input register q2q1q0 measures 000.
+Commands (in order):
+  q.circuit new preset_119 4
+  q.circuit input 8
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add h 2
+  q.circuit add h 3
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add h 2
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-120  Deutsch-Jozsa balanced parity oracle
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: Input register q2q1q0 measures 111.
+Commands (in order):
+  q.circuit new preset_120 4
+  q.circuit input 8
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add h 2
+  q.circuit add h 3
+  q.circuit add cx 0 3
+  q.circuit add cx 1 3
+  q.circuit add cx 2 3
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add h 2
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-121  Bernstein-Vazirani secret 101
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: Input register q2q1q0 measures 101.
+Commands (in order):
+  q.circuit new preset_121 4
+  q.circuit input 8
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add h 2
+  q.circuit add h 3
+  q.circuit add cx 0 3
+  q.circuit add cx 2 3
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add h 2
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-122  Grover search marked 11
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: After one Grover iteration, outcome 11 has probability 1; final global sign is immaterial.
+Commands (in order):
+  q.circuit new preset_122 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add cz 0 1
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add x 0
+  q.circuit add x 1
+  q.circuit add cz 0 1
+  q.circuit add x 0
+  q.circuit add x 1
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-123  Superdense code message 00
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: Decoded Z-basis bitstring 00.
+Commands (in order):
+  q.circuit new preset_123 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit add cx 0 1
+  q.circuit add h 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-124  Superdense code message 01
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: Decoded displayed bitstring 10; distinguish message-bit convention from basis ordering.
+Commands (in order):
+  q.circuit new preset_124 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit add x 0
+  q.circuit add cx 0 1
+  q.circuit add h 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-125  Superdense code message 10
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: Decoded displayed bitstring 01; distinguish message-bit convention from basis ordering.
+Commands (in order):
+  q.circuit new preset_125 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit add z 0
+  q.circuit add cx 0 1
+  q.circuit add h 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-126  Superdense code message 11
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: Decoded displayed bitstring 11 up to global phase.
+Commands (in order):
+  q.circuit new preset_126 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit add x 0
+  q.circuit add z 0
+  q.circuit add cx 0 1
+  q.circuit add h 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-127  Coherent teleportation without branch sampling
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: q2 equals the original input pure state. This is a deferred-measurement circuit, not an actual classical feed-forward demonstration.
+Commands (in order):
+  q.circuit new preset_127 3
+  q.circuit input 0
+  q.circuit add ry 1.0471975511965976 0
+  q.circuit add h 1
+  q.circuit add cx 1 2
+  q.circuit add cx 0 1
+  q.circuit add h 0
+  q.circuit add cx 1 2
+  q.circuit add cz 0 2
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+  q.circuit spin 2
+
+qc-128  Three-qubit phase kickback
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: The |11> input branch of q1q0 acquires a minus sign through the |-> target.
+Commands (in order):
+  q.circuit new preset_128 3
+  q.circuit input 4
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add h 2
+  q.circuit add ccx 0 1 2
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-129  Two-qubit QAOA edge layer
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: Compute the resulting joint distribution; interpret cost-angle factors from the explicitly defined Hamiltonian.
+Commands (in order):
+  q.circuit new preset_129 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add rzz 0.7853981633974483 0 1
+  q.circuit add rx 0.39269908169872414 0
+  q.circuit add rx 0.39269908169872414 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-130  VQE two-qubit ansatz
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: A parameterized two-qubit state; energy evaluation needs a separately supplied Hamiltonian.
+Commands (in order):
+  q.circuit new preset_130 2
+  q.circuit input 0
+  q.circuit add ry 0.2 0
+  q.circuit add ry 0.4 1
+  q.circuit add cx 0 1
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-131  Inverse circuit recovery
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; The preset runner must await circuit-run completion before issuing dependent queries.; If this circuit name already exists, choose a fresh suffix. Do not delete user circuits.
+Description: Create a fresh named circuit and simulate it using the observed circuit syntax. Report the ideal distribution separately from sampled counts.
+Expected: Recover |000> within numerical tolerance.
+Commands (in order):
+  q.circuit new preset_131 3
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add ry 0.2 1
+  q.circuit add cx 0 2
+  q.circuit add t 2
+  q.circuit add tdg 2
+  q.circuit add cx 0 2
+  q.circuit add ry -0.2 1
+  q.circuit add h 0
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+========================================================================
+STATE AND MATRIX MATHEMATICS
+========================================================================
+
+qc-132  Normalize a complex qubit
+Availability: proposed-extension
+Backend: symbolic-or-small-numerical
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Divide by the Euclidean norm; reject a zero vector.
+Expected: [1/sqrt(2),i/sqrt(2)].
+Commands (in order):
+  q.math normalize amplitudes=[1,i]
+
+qc-133  Check qubit normalization
+Availability: proposed-extension
+Backend: symbolic-or-small-numerical
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Return squared norm and validity without silently changing the input.
+Expected: Squared norm 1.
+Commands (in order):
+  q.math norm amplitudes=[1/sqrt(3),sqrt(2/3)]
+
+qc-134  Compute Born probabilities
+Availability: proposed-extension
+Backend: symbolic-or-small-numerical
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Return the squared magnitude of each amplitude.
+Expected: [3/4,1/4].
+Commands (in order):
+  q.math probabilities amplitudes=[sqrt(3)/2,i/2]
+
+qc-135  Convert pure state to Bloch vector
+Availability: proposed-extension
+Backend: symbolic-or-small-numerical
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Use x=2Re(conj(alpha)*beta), y=2Im(conj(alpha)*beta), z=|alpha|^2-|beta|^2.
+Expected: (0,1,0).
+Commands (in order):
+  q.math bloch amplitudes=[1/sqrt(2),i/sqrt(2)]
+
+qc-136  Prepare state from Bloch angles
+Availability: proposed-extension
+Backend: symbolic-or-small-numerical
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Return cos(theta/2)|0>+exp(i phi)sin(theta/2)|1>.
+Expected: sqrt(3)|0>/2+exp(i*pi/4)|1>/2.
+Commands (in order):
+  q.math from-bloch theta=pi/3 phi=pi/4
+
+qc-137  Validate a Bloch vector
+Availability: proposed-extension
+Backend: symbolic-or-small-numerical
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Check radius <=1. A vector strictly inside the ball represents a mixed state.
+Expected: Radius squared 0.29; valid mixed state.
+Commands (in order):
+  q.math validate-bloch x=0.2 y=0.3 z=0.4
+
+qc-138  Convert pure state to density matrix
+Availability: proposed-extension
+Backend: symbolic-or-small-numerical
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Form |psi><psi| with complex conjugation.
+Expected: [[1/2,-i/2],[i/2,1/2]].
+Commands (in order):
+  q.math density amplitudes=[1/sqrt(2),i/sqrt(2)]
+
+qc-139  Validate a mixed density matrix
+Availability: proposed-extension
+Backend: symbolic-or-small-numerical
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Check Hermiticity, trace 1, and positive semidefiniteness.
+Expected: Valid mixed state.
+Commands (in order):
+  q.math validate-density rho=[[0.7,0],[0,0.3]]
+
+qc-140  Reject nonphysical density matrix
+Availability: proposed-extension
+Backend: symbolic-or-small-numerical
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Explain which physical-state constraint fails.
+Expected: Invalid: negative eigenvalue -0.2.
+Commands (in order):
+  q.math validate-density rho=[[1.2,0],[0,-0.2]]
+
+qc-141  Compute density-matrix purity
+Availability: proposed-extension
+Backend: symbolic-or-small-numerical
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Compute trace(rho^2).
+Expected: 0.58.
+Commands (in order):
+  q.math purity rho=[[0.7,0],[0,0.3]]
+
+qc-142  Compute von Neumann entropy
+Availability: proposed-extension
+Backend: symbolic-or-small-numerical
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Use -sum(lambda log2 lambda), with 0 log 0 treated as 0.
+Expected: 1 bit.
+Commands (in order):
+  q.math entropy rho=[[0.5,0],[0,0.5]] base=2
+
+qc-143  Compute overlap of pure states
+Availability: proposed-extension
+Backend: symbolic-or-small-numerical
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Return complex inner product and squared modulus separately.
+Expected: Overlap 1/sqrt(2); fidelity 1/2.
+Commands (in order):
+  q.math overlap a=[1,0] b=[1/sqrt(2),1/sqrt(2)]
+
+qc-144  Compute pure-state fidelity
+Availability: proposed-extension
+Backend: symbolic-or-small-numerical
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Define squared fidelity for pure states as |<a|b>|^2.
+Expected: 0.
+Commands (in order):
+  q.math fidelity a=[1/sqrt(2),1/sqrt(2)] b=[1/sqrt(2),-1/sqrt(2)] convention=squared
+
+qc-145  Compute trace distance
+Availability: proposed-extension
+Backend: symbolic-or-small-numerical
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Use D=norm(rho-sigma,trace)/2.
+Expected: 1.
+Commands (in order):
+  q.math trace-distance rho=[[1,0],[0,0]] sigma=[[0,0],[0,1]]
+
+qc-146  Show the Hadamard matrix
+Availability: proposed-extension
+Backend: symbolic-or-small-numerical
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Return H and verify H dagger H=I.
+Expected: [[1,1],[1,-1]]/sqrt(2).
+Commands (in order):
+  q.math gate-matrix gate=h
+
+qc-147  Show phase versus Z rotation
+Availability: proposed-extension
+Backend: symbolic-or-small-numerical
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Keep global phases in the matrices and explain equivalence.
+Expected: P(theta)=exp(i theta/2) RZ(theta).
+Commands (in order):
+  q.math compare-gates p=pi/3 rz=pi/3 up-to-global-phase=true
+
+qc-148  Check matrix unitarity
+Availability: proposed-extension
+Backend: symbolic-or-small-numerical
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Evaluate U dagger U-I rather than relying on gate names.
+Expected: Unitary.
+Commands (in order):
+  q.math unitary matrix=[[0,1],[1,0]] tolerance=1e-12
+
+qc-149  Compute a tensor product
+Availability: proposed-extension
+Backend: symbolic-or-small-numerical
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Return H tensor I2; the left factor acts on q1 under q0-LSB ordering.
+Expected: A 4 by 4 matrix with H acting on q1.
+Commands (in order):
+  q.math tensor left=H right=I2
+
+qc-150  Compute a Pauli commutator
+Availability: proposed-extension
+Backend: symbolic-or-small-numerical
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Use [A,B]=AB-BA.
+Expected: -2iY.
+Commands (in order):
+  q.math commutator a=X b=Z
+
+qc-151  Find eigenstates of a Pauli observable
+Availability: proposed-extension
+Backend: symbolic-or-small-numerical
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Return eigenvalues and normalized eigenvectors.
+Expected: Eigenvalues +1,-1; eigenstates |+>,|->.
+Commands (in order):
+  q.math eigen operator=X
+
+qc-152  Compute expectation of Z
+Availability: proposed-extension
+Backend: symbolic-or-small-numerical
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Return <psi|Z|psi>.
+Expected: 1/2.
+Commands (in order):
+  q.math expectation state=[sqrt(3)/2,1/2] operator=Z
+
+qc-153  Canonicalize only display phase
+Availability: proposed-extension
+Backend: symbolic-or-small-numerical
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Show a canonical representative while retaining the original physical amplitudes for composition.
+Expected: [1/sqrt(2),i/sqrt(2)] after multiplying the display copy by -i.
+Commands (in order):
+  q.math canonical-phase amplitudes=[i/sqrt(2),-1/sqrt(2)] preserve-original=true
+
+========================================================================
+JOINT-STATE ANALYSIS
+========================================================================
+
+qc-154  List Bell amplitudes
+Availability: proposed-extension
+Backend: circuit-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; Await the run job before querying its premeasurement state.; Limit full-state queries to a specified maximum number of amplitudes.
+Description: Return complex amplitudes in ascending basis-index order, with an explicit q0-LSB convention.
+Expected: [1/sqrt(2),0,0,1/sqrt(2)].
+Commands (in order):
+  q.circuit new preset_154 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.query amplitudes max=16
+
+qc-155  List exact Bell probabilities
+Availability: proposed-extension
+Backend: circuit-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; Await the run job before querying its premeasurement state.; Limit full-state queries to a specified maximum number of amplitudes.
+Description: Return ideal probabilities separately from shot counts.
+Expected: P(00)=P(11)=1/2.
+Commands (in order):
+  q.circuit new preset_155 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.query probabilities max=16
+
+qc-156  Bell single-qubit marginal
+Availability: proposed-extension
+Backend: circuit-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; Await the run job before querying its premeasurement state.; Limit full-state queries to a specified maximum number of amplitudes.
+Description: Sum joint probabilities over unselected qubits.
+Expected: [1/2,1/2].
+Commands (in order):
+  q.circuit new preset_156 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.query marginal qubits=[0] basis=z
+
+qc-157  Bell reduced density matrix
+Availability: proposed-extension
+Backend: circuit-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; Await the run job before querying its premeasurement state.; Limit full-state queries to a specified maximum number of amplitudes.
+Description: Compute a partial trace, preserving coherences on the selected subsystem.
+Expected: I2/2.
+Commands (in order):
+  q.circuit new preset_157 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.query reduced-density qubits=[0]
+
+qc-158  Bell reduced purity
+Availability: proposed-extension
+Backend: circuit-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; Await the run job before querying its premeasurement state.; Limit full-state queries to a specified maximum number of amplitudes.
+Description: Return reduced-state purity, not the purity of the entire pure state.
+Expected: 1/2.
+Commands (in order):
+  q.circuit new preset_158 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.query purity qubits=[0]
+
+qc-159  Bell entanglement entropy
+Availability: proposed-extension
+Backend: circuit-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; Await the run job before querying its premeasurement state.; Limit full-state queries to a specified maximum number of amplitudes.
+Description: Report entropy of the reduced state; identify its use as an entanglement entropy for a globally pure state.
+Expected: 1 bit.
+Commands (in order):
+  q.circuit new preset_159 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.query entropy qubits=[0] base=2
+
+qc-160  Bell ZZ expectation
+Availability: proposed-extension
+Backend: circuit-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; Await the run job before querying its premeasurement state.; Limit full-state queries to a specified maximum number of amplitudes.
+Description: Compute a Pauli-string expectation.
+Expected: +1.
+Commands (in order):
+  q.circuit new preset_160 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.query expectation pauli="Z0 Z1"
+
+qc-161  Bell XX expectation
+Availability: proposed-extension
+Backend: circuit-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; Await the run job before querying its premeasurement state.; Limit full-state queries to a specified maximum number of amplitudes.
+Description: Compute a Pauli-string expectation.
+Expected: +1.
+Commands (in order):
+  q.circuit new preset_161 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.query expectation pauli="X0 X1"
+
+qc-162  Bell YY expectation
+Availability: proposed-extension
+Backend: circuit-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; Await the run job before querying its premeasurement state.; Limit full-state queries to a specified maximum number of amplitudes.
+Description: Compute a Pauli-string expectation.
+Expected: -1.
+Commands (in order):
+  q.circuit new preset_162 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.query expectation pauli="Y0 Y1"
+
+qc-163  Bell concurrence
+Availability: proposed-extension
+Backend: circuit-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; Await the run job before querying its premeasurement state.; Limit full-state queries to a specified maximum number of amplitudes.
+Description: Use the pure-state two-qubit expression, or Wootters's density-matrix expression for mixed states.
+Expected: 1.
+Commands (in order):
+  q.circuit new preset_163 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.query concurrence qubits=[0,1]
+
+qc-164  Bell negativity
+Availability: proposed-extension
+Backend: circuit-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; Await the run job before querying its premeasurement state.; Limit full-state queries to a specified maximum number of amplitudes.
+Description: Use N=(||rho^(T_A)||_1-1)/2, where T_A is partial transpose on the selected partition and ||.||_1 is the trace norm.
+Expected: 1/2.
+Commands (in order):
+  q.circuit new preset_164 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.query negativity partition=[0] convention=trace-norm-minus-one-divided-by-two
+
+qc-165  GHZ two-qubit reduction
+Availability: proposed-extension
+Backend: circuit-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; Await the run job before querying its premeasurement state.; Limit full-state queries to a specified maximum number of amplitudes.
+Description: Partial trace q2; explain why classical pairwise correlation does not imply pairwise entanglement.
+Expected: (|00><00|+|11><11|)/2.
+Commands (in order):
+  q.circuit new preset_165 3
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit add cx 0 2
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.query reduced-density qubits=[0,1]
+
+qc-166  Validate Bell stabilizers
+Availability: proposed-extension
+Backend: circuit-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; Await the run job before querying its premeasurement state.; Limit full-state queries to a specified maximum number of amplitudes.
+Description: Verify supplied stabilizers by eigenvalue and commutation checks.
+Expected: Both +1 eigenvalues; the generators commute.
+Commands (in order):
+  q.circuit new preset_166 2
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.query stabilizers generators=["X0 X1","Z0 Z1"]
+
+qc-167  Verify GHZ global parity
+Availability: proposed-extension
+Backend: circuit-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; Await the run job before querying its premeasurement state.; Limit full-state queries to a specified maximum number of amplitudes.
+Description: Compute the collective X parity observable.
+Expected: +1.
+Commands (in order):
+  q.circuit new preset_167 3
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit add cx 0 2
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.query expectation pauli="X0 X1 X2"
+
+========================================================================
+NOISE AND MITIGATION
+========================================================================
+
+qc-168  Bit-flip channel on zero
+Availability: proposed-extension
+Backend: density-matrix-or-noise-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; An actual density-matrix or numerical backend is required for nontrivial channels.
+Description: Use E(rho)=(1-p)rho+p XrhoX.
+Expected: diag(0.9,0.1).
+Commands (in order):
+  q.noise apply state=[1,0] channel=bit-flip p=0.1
+
+qc-169  Phase-flip channel on plus
+Availability: proposed-extension
+Backend: density-matrix-or-noise-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; An actual density-matrix or numerical backend is required for nontrivial channels.
+Description: Use E(rho)=(1-p)rho+p ZrhoZ; do not confuse p with complete-dephasing probability.
+Expected: [[0.5,0.3],[0.3,0.5]].
+Commands (in order):
+  q.noise apply state=[1/sqrt(2),1/sqrt(2)] channel=phase-flip p=0.2
+
+qc-170  Depolarize a pure qubit
+Availability: proposed-extension
+Backend: density-matrix-or-noise-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; An actual density-matrix or numerical backend is required for nontrivial channels.
+Description: Use E(rho)=(1-p)rho+p I2/2.
+Expected: diag(0.9,0.1).
+Commands (in order):
+  q.noise apply state=[1,0] channel=depolarizing p=0.2 convention=mix-with-I-over-2
+
+qc-171  Amplitude damping of excited state
+Availability: proposed-extension
+Backend: density-matrix-or-noise-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; An actual density-matrix or numerical backend is required for nontrivial channels.
+Description: Use K0=diag(1,sqrt(1-gamma)) and K1=sqrt(gamma)|0><1|.
+Expected: diag(0.25,0.75).
+Commands (in order):
+  q.noise apply state=[0,1] channel=amplitude-damping gamma=0.25
+
+qc-172  Amplitude damping of plus
+Availability: proposed-extension
+Backend: density-matrix-or-noise-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; An actual density-matrix or numerical backend is required for nontrivial channels.
+Description: Apply the channel to the density matrix.
+Expected: [[0.68,0.4],[0.4,0.32]].
+Commands (in order):
+  q.noise apply state=[1/sqrt(2),1/sqrt(2)] channel=amplitude-damping gamma=0.36
+
+qc-173  Complete dephasing of plus
+Availability: proposed-extension
+Backend: density-matrix-or-noise-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; An actual density-matrix or numerical backend is required for nontrivial channels.
+Description: Keep diagonal entries; multiply off-diagonals by 1-lambda.
+Expected: I2/2.
+Commands (in order):
+  q.noise apply state=[1/sqrt(2),1/sqrt(2)] channel=dephasing lambda=1 convention=offdiagonal-times-one-minus-lambda
+
+qc-174  Local noise on Bell state
+Availability: proposed-extension
+Backend: density-matrix-or-noise-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; An actual density-matrix or numerical backend is required for nontrivial channels.
+Description: Apply a local X channel to q0 after preparing Bell phi-plus.
+Expected: 0.9 |Phi+><Phi+|+0.1 |Psi+><Psi+|.
+Commands (in order):
+  q.noise circuit n=2 input=0 gates="h 0;cx 0 1" channel=bit-flip p=0.1 targets=[0]
+
+qc-175  Independent noise on two qubits
+Availability: proposed-extension
+Backend: density-matrix-or-noise-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; An actual density-matrix or numerical backend is required for nontrivial channels.
+Description: Apply two local channels, not one global channel on the full register.
+Expected: Evaluate density matrix and Bell fidelity numerically.
+Commands (in order):
+  q.noise circuit n=2 input=0 gates="h 0;cx 0 1" channel=depolarizing p=0.1 targets=[0,1] independent=true convention=mix-with-I-over-2
+
+qc-176  T1 population decay
+Availability: proposed-extension
+Backend: density-matrix-or-noise-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; An actual density-matrix or numerical backend is required for nontrivial channels.
+Description: Use p1(t)=p1(0) exp(-t/T1), with matching units.
+Expected: exp(-0.2).
+Commands (in order):
+  q.noise t1 excited-probability=1 time-us=20 t1-us=100
+
+qc-177  T2 coherence decay
+Availability: proposed-extension
+Backend: density-matrix-or-noise-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; An actual density-matrix or numerical backend is required for nontrivial channels.
+Description: Use coherence(t)=coherence(0) exp(-t/T2) in a specified phenomenological model.
+Expected: 0.5 exp(-0.2).
+Commands (in order):
+  q.noise t2 coherence=0.5 time-us=20 t2-us=100
+
+qc-178  Readout-error forward model
+Availability: proposed-extension
+Backend: density-matrix-or-noise-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; An actual density-matrix or numerical backend is required for nontrivial channels.
+Description: Multiply the column-stochastic confusion matrix by the true probability column.
+Expected: Observed probabilities [0.7425,0.2575].
+Commands (in order):
+  q.noise readout probabilities=[0.75,0.25] confusion=[[0.98,0.03],[0.02,0.97]] orientation=rows-observed-columns-true
+
+qc-179  Linear zero-noise extrapolation
+Availability: proposed-extension
+Backend: density-matrix-or-noise-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.; An actual density-matrix or numerical backend is required for nontrivial channels.
+Description: Fit a line and evaluate at zero noise. Label this an extrapolated estimate rather than a recovered exact result.
+Expected: Intercept 0.9.
+Commands (in order):
+  q.noise zne scales=[1,2,3] expectations=[0.8,0.7,0.6] model=linear
+
+========================================================================
+ERROR-CORRECTION DEMONSTRATIONS
+========================================================================
+
+qc-180  Three-bit repetition-code table
+Availability: proposed-extension
+Backend: small-code-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Tabulate signed stabilizer outcomes for one-X-error cases.
+Expected: I:(+,+), X0:(-,+), X1:(-,-), X2:(+,-).
+Commands (in order):
+  q.qec repetition3 syndrome-table errors=[I,X0,X1,X2] stabilizers=["Z0 Z1","Z1 Z2"]
+
+qc-181  Encode logical plus
+Availability: proposed-extension
+Backend: small-code-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Map alpha|0>+beta|1> to alpha|000>+beta|111>.
+Expected: GHZ plus state.
+Commands (in order):
+  q.qec repetition3 encode state=[1/sqrt(2),1/sqrt(2)]
+
+qc-182  Recover a single bit flip
+Availability: proposed-extension
+Backend: small-code-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Compute syndrome, recovery and decoded state; explicitly supply the one-error noise assumption.
+Expected: Original state recovered under the ideal code model.
+Commands (in order):
+  q.qec repetition3 simulate state=[sqrt(3)/2,1/2] error=X1 recover=true
+
+qc-183  Demonstrate repetition-code failure
+Availability: proposed-extension
+Backend: small-code-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Show that two bit flips can masquerade as a different single error.
+Expected: A logical failure after minimum-weight recovery.
+Commands (in order):
+  q.qec repetition3 simulate state=[1,0] errors=[X0,X1] recover=true
+
+qc-184  Phase-flip repetition-code example
+Availability: proposed-extension
+Backend: small-code-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Conjugate bit-flip encoding and syndrome checks by H on all code qubits.
+Expected: Corrects one phase flip under the ideal model.
+Commands (in order):
+  q.qec phase-repetition3 simulate state=[1/sqrt(2),i/sqrt(2)] error=Z2 recover=true
+
+qc-185  Validate stabilizer commutation
+Availability: proposed-extension
+Backend: small-code-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Check commuting Hermitian Pauli generators, independence and absence of -I.
+Expected: Valid independent commuting stabilizers.
+Commands (in order):
+  q.qec validate stabilizers=["X0 X1","Z0 Z1"]
+
+qc-186  Reject anticommuting stabilizers
+Availability: proposed-extension
+Backend: small-code-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Show why simultaneous +1 stabilization is impossible.
+Expected: Invalid: X0 and Z0 anticommute.
+Commands (in order):
+  q.qec validate stabilizers=["X0","Z0"]
+
+qc-187  Count encoded qubits
+Availability: proposed-extension
+Backend: small-code-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Compute k=n-rank(S) only after checking independent commuting generators.
+Expected: k=1, with the stated assumptions.
+Commands (in order):
+  q.qec parameters n=7 independent-stabilizers=6
+
+qc-188  Code-distance correction budget
+Availability: proposed-extension
+Backend: small-code-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Use t=floor((d-1)/2) for arbitrary unknown Pauli errors.
+Expected: Up to 2 arbitrary Pauli errors in the ideal error-correction model.
+Commands (in order):
+  q.qec correction-budget distance=5
+
+qc-189  Mitigation versus correction
+Availability: proposed-extension
+Backend: small-code-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Explain operations, assumptions and what each method estimates or protects.
+Expected: Mitigation estimates expectation values; error correction protects encoded quantum information.
+Commands (in order):
+  q.qec compare mitigation=zne correction=stabilizer-code
+
+========================================================================
+COMPILATION AND GATE SYNTHESIS
+========================================================================
+
+qc-190  Check H conjugation of X
+Availability: proposed-extension
+Backend: matrix-check-or-compiler
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Compare full matrices, including phase.
+Expected: Exact equivalence.
+Commands (in order):
+  q.compile identity left="h 0;x 0;h 0" right="z 0" n=1 equivalence=exact
+
+qc-191  Check SWAP decomposition
+Availability: proposed-extension
+Backend: matrix-check-or-compiler
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Compare full 4 by 4 matrices.
+Expected: Exact equivalence.
+Commands (in order):
+  q.compile identity left="cx 0 1;cx 1 0;cx 0 1" right="swap 0 1" n=2 equivalence=exact
+
+qc-192  Check controlled-phase mismatch
+Availability: proposed-extension
+Backend: matrix-check-or-compiler
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Explain why dropping a global phase before adding a control changes relative branch phase.
+Expected: Not equivalent up to one global phase.
+Commands (in order):
+  q.compile identity left="crz 1.5707963267948966 0 1" right="cp 1.5707963267948966 0 1" n=2 equivalence=global-phase
+
+qc-193  Cancel adjacent inverse gates
+Availability: proposed-extension
+Backend: matrix-check-or-compiler
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Use verified inverse pairs without reordering noncommuting gates.
+Expected: Identity within floating-point tolerance.
+Commands (in order):
+  q.compile simplify n=1 gates="h 0;h 0;t 0;tdg 0;ry 0.2 0;ry -0.2 0" preserve-global-phase=true
+
+qc-194  Count gates and T gates
+Availability: proposed-extension
+Backend: matrix-check-or-compiler
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Count logical operations and non-Clifford phase gates without hardware assumptions.
+Expected: 4 gates; T count 2.
+Commands (in order):
+  q.compile count n=2 gates="h 0;t 0;cx 0 1;tdg 1" counting=logical
+
+qc-195  Estimate ideal parallel depth
+Availability: proposed-extension
+Backend: matrix-check-or-compiler
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Schedule disjoint operations while preserving per-qubit dependencies.
+Expected: Depth 2 under the stated model.
+Commands (in order):
+  q.compile depth n=3 gates="h 0;h 1;cx 0 2;z 1" connectivity=all-to-all scheduling=earliest-dependencies
+
+qc-196  Classify a Clifford circuit
+Availability: proposed-extension
+Backend: matrix-check-or-compiler
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Determine eligibility for stabilizer simulation, not whether it is entangled.
+Expected: Clifford/stabilizer-compatible.
+Commands (in order):
+  q.compile classify n=2 gates="h 0;s 1;cx 0 1" input=computational-basis
+
+qc-197  Route a circuit containing T
+Availability: proposed-extension
+Backend: matrix-check-or-compiler
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Route away from a pure stabilizer backend, unless an explicit magic-state simulation method exists.
+Expected: Requires a supported non-Clifford method; does not itself prove quantum advantage.
+Commands (in order):
+  q.compile classify n=2 gates="h 0;t 0;cx 0 1" input=computational-basis
+
+qc-198  Request RZ Clifford+T synthesis
+Availability: proposed-extension
+Backend: matrix-check-or-compiler
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Call a real synthesis algorithm, then verify the produced sequence and declared error metric.
+Expected: A verified approximation only if a synthesis backend is connected.
+Commands (in order):
+  q.compile synthesize gate="rz 0.2 0" basis=clifford+t tolerance=1e-6 metric=operator-norm up-to-global-phase=true
+
+qc-199  Explain gate-set universality
+Availability: proposed-extension
+Backend: matrix-check-or-compiler
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Explain density in single-qubit unitaries with an entangling gate; do not claim exact representation of every continuous gate.
+Expected: Approximately universal finite gate set.
+Commands (in order):
+  q.compile universality set=[h,t,cx] semantics=approximate
+
+========================================================================
+MEMORY AND RESOURCE ESTIMATES
+========================================================================
+
+qc-200  Statevector memory at 29 qubits
+Availability: proposed-extension
+Backend: resource-arithmetic
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Compute 16*2^n bytes for amplitudes only, with overhead separately.
+Expected: 8 GiB before temporary workspaces and other overhead.
+Commands (in order):
+  q.resource memory n=29 representation=statevector dtype=complex128 units=binary
+
+qc-201  Statevector memory at 25 qubits
+Availability: proposed-extension
+Backend: resource-arithmetic
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Compare the worst-case amplitude array to the default 512 MiB cap.
+Expected: 512 MiB for amplitudes alone.
+Commands (in order):
+  q.resource memory n=25 representation=statevector dtype=complex128 units=binary
+
+qc-202  Density-matrix memory at 29 qubits
+Availability: proposed-extension
+Backend: resource-arithmetic
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Compute 16*4^n bytes; do not try allocating it.
+Expected: 4 EiB.
+Commands (in order):
+  q.resource memory n=29 representation=density-matrix dtype=complex128 units=binary
+
+qc-203  Largest raw statevector under cap
+Availability: proposed-extension
+Backend: resource-arithmetic
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Compute the mathematical upper bound and warn that a runnable allocation needs overhead.
+Expected: 25 qubits for raw amplitudes; operational maximum can be smaller.
+Commands (in order):
+  q.resource max-n memory-mib=512 representation=statevector dtype=complex128 overhead-mib=0
+
+qc-204  Twenty-nine independent factor blocks
+Availability: proposed-extension
+Backend: resource-arithmetic
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Estimate sum(16*2^block-size), excluding descriptors and overhead.
+Expected: 928 bytes of factor amplitudes.
+Commands (in order):
+  q.resource factor-memory block-sizes=[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] dtype=complex128
+
+qc-205  Fourteen Bell pairs plus one qubit
+Availability: proposed-extension
+Backend: resource-arithmetic
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Contrast factor-block storage with a 29-qubit dense statevector.
+Expected: 928 bytes of factor amplitudes, excluding overhead.
+Commands (in order):
+  q.resource factor-memory block-sizes=[2,2,2,2,2,2,2,2,2,2,2,2,2,2,1] dtype=complex128
+
+qc-206  One twenty-nine-qubit merged factor
+Availability: proposed-extension
+Backend: resource-arithmetic
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Estimate worst-case memory when the backend merges an entire entangled component.
+Expected: 8 GiB for the dense factor; an entangled state may still admit a more specialized representation.
+Commands (in order):
+  q.resource factor-memory block-sizes=[29] dtype=complex128
+
+qc-207  Plan independent grid tranches
+Availability: proposed-extension
+Backend: resource-arithmetic
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Compute chunk count and final remainder; explicitly forbid interpreting the chunks as one jointly entangled register.
+Expected: 17,241,379,310,345 groups; final group has 24 addresses.
+Commands (in order):
+  q.resource tranche-plan addresses=500000000000000 width=29 semantics=independent-groups
+
+qc-208  Estimate shot uncertainty
+Availability: proposed-extension
+Backend: resource-arithmetic
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Use sqrt(p(1-p)/shots) for independent Bernoulli shots.
+Expected: 0.015625.
+Commands (in order):
+  q.resource sampling probability=0.5 shots=1024 metric=standard-error
+
+qc-209  Plan additive-error sampling
+Availability: proposed-extension
+Backend: resource-arithmetic
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Use N>=ln(2/delta)/(2 epsilon^2); identify the bound and assumptions.
+Expected: 18,445 shots after rounding up.
+Commands (in order):
+  q.resource shots epsilon=0.01 delta=0.05 bound=hoeffding-two-sided
+
+qc-210  Grover query estimate
+Availability: proposed-extension
+Backend: resource-arithmetic
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Report approx pi/4 sqrt(N/M) oracle calls, separating oracle implementation cost.
+Expected: About 804 oracle iterations; this is a scaling estimate.
+Commands (in order):
+  q.resource grover database-size=1048576 marked=1 formula=asymptotic
+
+qc-211  Logical versus physical qubit budget
+Availability: proposed-extension
+Backend: resource-arithmetic
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Treat overhead as an assumption, not a hardware benchmark.
+Expected: 29,000 physical qubits under the supplied assumption.
+Commands (in order):
+  q.resource qec logical-qubits=29 physical-per-logical=1000 model=user-supplied-overhead
+
+========================================================================
+ALTERNATIVE COMPUTATION MODELS
+========================================================================
+
+qc-212  One-spin Hamiltonian spectrum
+Availability: proposed-extension
+Backend: model-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Diagonalize a supplied Hamiltonian and return eigenpairs.
+Expected: Ground state |0> with energy -1.
+Commands (in order):
+  q.model spectrum hamiltonian="-1*Z0" n=1
+
+qc-213  Two-spin Ising energies
+Availability: proposed-extension
+Backend: model-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Count each coupling once and state the exact energy convention.
+Expected: Aligned spins have energy -1; opposite spins +1.
+Commands (in order):
+  q.model ising h=[0,0] J=[[0,-1],[-1,0]] energy="sum_i h_i s_i + sum_i<j J_ij s_i s_j" spins=plus-minus-one
+
+qc-214  Convert a binary quadratic model
+Availability: proposed-extension
+Backend: model-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: State the full-matrix quadratic convention and include the constant offset.
+Expected: E(s)=0.5-0.5*s0*s1, including constant offset 0.5.
+Commands (in order):
+  q.model qubo-to-ising Q=[[1,-1],[-1,1]] objective="x_transpose_Q_x" mapping="x=(1-s)/2"
+
+qc-215  One-qubit real-time evolution
+Availability: proposed-extension
+Backend: model-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Use U=exp(-iHt/hbar).
+Expected: Equivalent to RZ(pi/2) applied to |+>.
+Commands (in order):
+  q.model evolve n=1 initial=[1/sqrt(2),1/sqrt(2)] hamiltonian="0.5*Z0" time=pi/2 hbar=1
+
+qc-216  Compare digital and adiabatic models
+Availability: proposed-extension
+Backend: model-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Explain ideal model equivalence separately from practical device universality and performance.
+Expected: Closed-system adiabatic quantum computation can be universal; annealers do not automatically implement arbitrary gate circuits.
+Commands (in order):
+  q.model compare models=[gate-based,closed-system-adiabatic,open-system-annealing]
+
+qc-217  MBQC one-bit teleportation branches
+Availability: proposed-extension
+Backend: model-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Return each branch probability, output state, and Pauli byproduct.
+Expected: Output X^m H|psi>, each branch probability 1/2.
+Commands (in order):
+  q.model mbqc initial=[sqrt(3)/2,1/2] resource="one plus ancilla" entangler=CZ measurement="X on input" branch=all
+
+qc-218  Surface-code versus LDPC assumptions
+Availability: proposed-extension
+Backend: model-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Discuss model assumptions; require sources for quantitative device claims.
+Expected: No universal fixed physical-to-logical ratio applies to all code families.
+Commands (in order):
+  q.model compare-codes families=[surface-code,qldpc] assumptions=[connectivity,decoder,noise-model,rate,distance]
+
+qc-219  Topological braid educational model
+Availability: proposed-extension
+Backend: model-analysis
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Explain that braiding unitaries require an explicitly named anyon theory; do not invent a physical gate matrix.
+Expected: Cannot calculate a unique braid unitary without a specified anyon model.
+Commands (in order):
+  q.model topology braid=example anyon-model=unspecified action=explain
+
+========================================================================
+GUIDED LESSONS AND ARTICLE CORRECTIONS
+========================================================================
+
+qc-220  Explain amplitude versus probability
+Availability: proposed-extension
+Backend: educational
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Use this state to explain normalization, phase, and the Born rule.
+Expected: Both outcomes have probability 1/2, despite the relative phase.
+Commands (in order):
+  q.lesson amplitude-vs-probability example=[1/sqrt(2),i/sqrt(2)]
+
+qc-221  Explain entanglement versus superposition
+Availability: proposed-extension
+Backend: educational
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Compare factorability, marginals, and joint correlations.
+Expected: Both are superposed; only Bell phi-plus is entangled.
+Commands (in order):
+  q.lesson entanglement compare=["plus tensor plus","Bell phi plus"]
+
+qc-222  Explain BQP bounds
+Availability: proposed-extension
+Backend: educational
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Separate established inclusions from open relations; do not claim BQP!=NP is proved.
+Expected: BPP is contained in or equal to BQP, and BQP is contained in or equal to PSPACE; the relationship between BQP and NP remains unresolved.
+Commands (in order):
+  q.lesson complexity classes=[P,BPP,BQP,PSPACE,NP] distinguish=[proven,conjectured]
+
+qc-223  Explain quantum parallelism limits
+Availability: proposed-extension
+Backend: educational
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Explain that measuring does not reveal every value in a superposition.
+Expected: Speedups depend on algorithm structure and interference.
+Commands (in order):
+  q.lesson parallelism example=grover
+
+qc-224  Explain Gottesman-Knill scope
+Availability: proposed-extension
+Backend: educational
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Explain efficient stabilizer simulation and why entanglement does not establish speedup.
+Expected: These assumptions admit efficient classical simulation.
+Commands (in order):
+  q.lesson stabilizer assumptions=[stabilizer-input,clifford-gates,pauli-measurements]
+
+qc-225  Correct article's magic-state overstatement
+Availability: proposed-extension
+Backend: educational
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Show T|0>=|0>; avoid universally applying odd-dimensional Wigner-positivity claims to qubits.
+Expected: A T gate need not create a magic state on every input.
+Commands (in order):
+  q.lesson magic caveats=[input-dependent-T,qubit-Wigner-convention,nonclifford-not-sufficient-for-advantage]
+
+qc-226  Explain Shor versus Grover scaling
+Availability: proposed-extension
+Backend: educational
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Distinguish factoring/discrete-log algorithms from unstructured-search amplitude amplification.
+Expected: No promise of practical RSA-breaking from a toy simulator.
+Commands (in order):
+  q.lesson algorithms compare=[shor,grover] scope=toy-calculator
+
+qc-227  Review post-quantum standards
+Availability: proposed-extension
+Backend: educational
+Requires: Proposed extension: implement and validate this command before enabling its menu item.
+Description: Browse NIST primary sources before stating current standards or migration dates.
+Expected: ML-KEM, ML-DSA and SLH-DSA serve different cryptographic functions; this command is educational.
+Commands (in order):
+  q.lesson pqc standards=[FIPS203,FIPS204,FIPS205] mode=verify-current-primary-sources
+
+========================================================================
+CIRCUIT PRESETS AND CONTROLS
+========================================================================
+
+qc-228  Load built-in Bell circuit
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; Await any active run before dependent result queries.; Inspect the built-in macro's source for naming, selection and overwrite behavior before enabling automated execution; do not assume it creates a fresh unique circuit.
+Description: Build and inspect the existing Bell macro before running it.
+Expected: An entangling two-qubit circuit; inspect the expanded gate list.
+Commands (in order):
+  q.circuit preset bell
+  q.circuit show
+
+qc-229  Inspect built-in 29-qubit GHZ circuit
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; Await any active run before dependent result queries.; Inspect the built-in macro's source for naming, selection and overwrite behavior before enabling automated execution; do not assume it creates a fresh unique circuit.
+Description: Build the existing 29-qubit GHZ macro and inspect its gates; do not enqueue simulation until the resource plan is accepted.
+Expected: The dense factor-block implementation can exceed the 512 MiB cap while merging this register, despite the GHZ state's special compressibility.
+Commands (in order):
+  q.circuit preset ghz 29
+  q.circuit show
+
+qc-230  Run built-in five-qubit QFT
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; Await any active run before dependent result queries.; Inspect the built-in macro's source for naming, selection and overwrite behavior before enabling automated execution; do not assume it creates a fresh unique circuit.
+Description: Run the existing QFT macro on basis index 5. Inspect the expanded gates and bit-ordering convention.
+Expected: For an ideal QFT on a computational-basis input, all 32 Z-basis outcomes have probability 1/32; phase ordering depends on final swaps and convention.
+Commands (in order):
+  q.circuit preset qft 5
+  q.circuit input 5
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-231  List saved named circuits
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; Await any active run before dependent result queries.
+Description: List named circuits available for selection.
+Expected: Names and metadata rather than statevector expansion.
+Commands (in order):
+  q.circuit list
+
+qc-232  Inspect circuit session
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; Await any active run before dependent result queries.
+Description: Inspect the selected named circuit and its active run job.
+Expected: Current job and circuit status.
+Commands (in order):
+  q.circuit status
+
+qc-233  Read completed circuit result
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; Await any active run before dependent result queries.
+Description: Read the selected circuit's completed joint-shot result.
+Expected: Observed counts remain distinct from theoretical probabilities.
+Commands (in order):
+  q.circuit result
+
+qc-234  Set circuit memory cap
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; Await any active run before dependent result queries.
+Description: Set a 512 MiB cap for named-circuit calculations.
+Expected: An allocation limit, not guaranteed capacity for arbitrary 25- or 29-qubit circuits.
+Commands (in order):
+  q.circuit memory 512
+
+qc-235  Export selected circuit
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; Await any active run before dependent result queries.
+Description: Export the selected named circuit using the existing format.
+Expected: Circuit definition or result in the candidate's documented export format.
+Commands (in order):
+  q.circuit export
+
+qc-236  Cancel circuit calculation
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; Await any active run before dependent result queries.
+Description: Cancel the selected circuit's active job.
+Expected: Inspect status afterward; do not continue dependent queries after a cancellation.
+Commands (in order):
+  q.circuit cancel
+
+qc-237  Show circuit command reference
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; Await any active run before dependent result queries.
+Description: Show the currently implemented q.circuit grammar.
+Expected: Current implementation's help text.
+Commands (in order):
+  q.circuit help
+
+========================================================================
+LARGE STRUCTURED-REGISTER DEMONSTRATIONS
+========================================================================
+
+qc-238  29-qubit GHZ X-parity test
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; A preset runner must await run completion before result queries.; Choose a fresh circuit-name suffix on collision.; Check resources first. Supply an adequately provisioned dense backend or an implemented specialized representation; increasing a limit does not create available RAM.
+Description: Create and inspect a fresh named 29-qubit circuit. Run only after the memory and backend requirements are satisfied.
+Expected: An ideal GHZ-plus state yields only even-parity X-basis output strings. A 29-qubit dense merged factor needs 8 GiB before overhead; the existing 512 MiB cap can reject this run.
+Commands (in order):
+  q.circuit new preset_238 29
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit add cx 0 2
+  q.circuit add cx 0 3
+  q.circuit add cx 0 4
+  q.circuit add cx 0 5
+  q.circuit add cx 0 6
+  q.circuit add cx 0 7
+  q.circuit add cx 0 8
+  q.circuit add cx 0 9
+  q.circuit add cx 0 10
+  q.circuit add cx 0 11
+  q.circuit add cx 0 12
+  q.circuit add cx 0 13
+  q.circuit add cx 0 14
+  q.circuit add cx 0 15
+  q.circuit add cx 0 16
+  q.circuit add cx 0 17
+  q.circuit add cx 0 18
+  q.circuit add cx 0 19
+  q.circuit add cx 0 20
+  q.circuit add cx 0 21
+  q.circuit add cx 0 22
+  q.circuit add cx 0 23
+  q.circuit add cx 0 24
+  q.circuit add cx 0 25
+  q.circuit add cx 0 26
+  q.circuit add cx 0 27
+  q.circuit add cx 0 28
+  q.circuit show
+  q.circuit run shots 1024 basis x
+  q.circuit status
+  q.circuit result
+
+qc-239  29 independent Hadamards
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; A preset runner must await run completion before result queries.; Choose a fresh circuit-name suffix on collision.; Use factor-preserving sampling; do not enumerate all 2^29 probabilities just to generate 1,024 shots.
+Description: Create and inspect a fresh named 29-qubit circuit. Run only after the memory and backend requirements are satisfied.
+Expected: All 2^29 Z-basis strings have ideal probability 2^-29. The state is a product of 29 |+> factors, so factor amplitude storage is 928 bytes before descriptors and sampling workspaces.
+Commands (in order):
+  q.circuit new preset_239 29
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add h 1
+  q.circuit add h 2
+  q.circuit add h 3
+  q.circuit add h 4
+  q.circuit add h 5
+  q.circuit add h 6
+  q.circuit add h 7
+  q.circuit add h 8
+  q.circuit add h 9
+  q.circuit add h 10
+  q.circuit add h 11
+  q.circuit add h 12
+  q.circuit add h 13
+  q.circuit add h 14
+  q.circuit add h 15
+  q.circuit add h 16
+  q.circuit add h 17
+  q.circuit add h 18
+  q.circuit add h 19
+  q.circuit add h 20
+  q.circuit add h 21
+  q.circuit add h 22
+  q.circuit add h 23
+  q.circuit add h 24
+  q.circuit add h 25
+  q.circuit add h 26
+  q.circuit add h 27
+  q.circuit add h 28
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+qc-240  Fourteen Bell pairs plus idle qubit
+Availability: observed-syntax
+Backend: circuit-factor-block
+Requires: Use the candidate version whose command syntax was observed; the source package is not attached here.; A preset runner must await run completion before result queries.; Choose a fresh circuit-name suffix on collision.; Keep independent Bell-pair blocks separate; do not flatten to a 29-qubit dense array for sampling.
+Description: Create and inspect a fresh named 29-qubit circuit. Run only after the memory and backend requirements are satisfied.
+Expected: Each pair (q0,q1),(q2,q3),...,(q26,q27) is Bell phi-plus, and q28 is |0>. There are 2^14 equally likely Z-basis strings; each pair's bits agree. Factor amplitude storage is 928 bytes before overhead.
+Commands (in order):
+  q.circuit new preset_240 29
+  q.circuit input 0
+  q.circuit add h 0
+  q.circuit add cx 0 1
+  q.circuit add h 2
+  q.circuit add cx 2 3
+  q.circuit add h 4
+  q.circuit add cx 4 5
+  q.circuit add h 6
+  q.circuit add cx 6 7
+  q.circuit add h 8
+  q.circuit add cx 8 9
+  q.circuit add h 10
+  q.circuit add cx 10 11
+  q.circuit add h 12
+  q.circuit add cx 12 13
+  q.circuit add h 14
+  q.circuit add cx 14 15
+  q.circuit add h 16
+  q.circuit add cx 16 17
+  q.circuit add h 18
+  q.circuit add cx 18 19
+  q.circuit add h 20
+  q.circuit add cx 20 21
+  q.circuit add h 22
+  q.circuit add cx 22 23
+  q.circuit add h 24
+  q.circuit add cx 24 25
+  q.circuit add h 26
+  q.circuit add cx 26 27
+  q.circuit show
+  q.circuit run shots 1024 basis z
+  q.circuit status
+  q.circuit result
+
+========================================================================
+ALGORITHM EXTENSIONS
+========================================================================
+
+qc-241  Exact three-bit quantum phase estimation
+Availability: proposed-extension
+Backend: small-state-algorithm
+Requires: Proposed extension: implement and validate the algorithm command and controlled powers before enabling its menu item.; Use q0-LSB bit ordering and explicitly include swaps to restore the stated output order.; This is an ideal four-qubit toy calculation, not a hardware job.
+Description: Use counting qubits q0,q1,q2 and eigenstate |1> on q3. The P(3*pi/4) eigenvalue is exp(2*pi*i*3/8); controlled powers and an inverse QFT recover the three-bit phase.
+Expected: Counting register displayed as |q2 q1 q0> returns 011, representing 3/8, with probability 1 in ideal arithmetic.
+Commands (in order):
+  q.algorithm phase-estimation counting-qubits=3 unitary="p 2.356194490192345 3" eigenstate=[0,1] power-map="qj-controls-U^(2^j)" inverse-qft=include-final-swaps
+
+VALIDATION SCOPE
+The guide/initial preset expectations received an independent mathematical review. Core normalization, phase, bit-order, Bell, spin, memory and tranche-count reference fixtures were calculated independently. Manifest records and availability labels were checked. This does not verify the candidate native implementation, the UI macro runner, backend performance, or proposed-command execution.
+Source candidate: https://chatgpt.com/s/cx_6ac94f7baf5481919b11359e8acd21af
