@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+node_modules/
+tests/e2e_results.json
+tests/host_check.json
+skills/spindoctor-qwerty/examples/theory/*.pdf
