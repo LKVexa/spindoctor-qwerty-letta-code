@@ -1,0 +1,24 @@
+[
+ {
+  "uuid": "c1",
+  "name": "Graph to Bell",
+  "chat_messages": [
+   {
+    "sender": "human",
+    "text": "If I put H on both qubits and then CZ, is it entangled?"
+   },
+   {
+    "sender": "assistant",
+    "text": "Yes - CZ on |++> gives a maximally entangled graph state."
+   },
+   {
+    "sender": "human",
+    "text": "Then H on qubit 1 gives a Bell state: only 00 and 11, about half each."
+   },
+   {
+    "sender": "assistant",
+    "text": "Right; concurrence 1."
+   }
+  ]
+ }
+]

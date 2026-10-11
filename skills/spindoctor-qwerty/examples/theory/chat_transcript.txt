@@ -1,0 +1,7 @@
+User: I've been thinking - if I put a Hadamard on both qubits and then a CZ, do I get an entangled state?
+Assistant: Yes. H on both gives |++>, and CZ turns it into a graph state, which is maximally entangled.
+User: So if I then apply H to qubit 1 again, it should become a Bell state, right?
+Assistant: Exactly - H(1) after CZ on |++> gives (|00> + |11>)/sqrt(2) up to qubit labelling.
+User: Then my theory is: measuring that circuit in Z gives only 00 and 11, about half each.
+Assistant: That is a clean, testable prediction. We could also check the concurrence is 1.
+User: Great, let's call that the "graph-to-Bell" theory.

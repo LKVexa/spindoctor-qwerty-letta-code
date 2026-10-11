@@ -1,0 +1,88 @@
+[
+ {
+  "title": "Graph to Bell",
+  "current_node": "n5",
+  "mapping": {
+   "root": {
+    "id": "root",
+    "message": null,
+    "parent": null
+   },
+   "n1": {
+    "id": "n1",
+    "parent": "root",
+    "message": {
+     "author": {
+      "role": "user"
+     },
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "If I put H on both qubits and then CZ, is it entangled?"
+      ]
+     }
+    }
+   },
+   "n2": {
+    "id": "n2",
+    "parent": "n1",
+    "message": {
+     "author": {
+      "role": "assistant"
+     },
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Yes, CZ on |++> makes a maximally entangled graph state."
+      ]
+     }
+    }
+   },
+   "n3": {
+    "id": "n3",
+    "parent": "n2",
+    "message": {
+     "author": {
+      "role": "user"
+     },
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Then H on qubit 1 should give a Bell state: only 00 and 11, about half each."
+      ]
+     }
+    }
+   },
+   "n4": {
+    "id": "n4",
+    "parent": "n3",
+    "message": {
+     "author": {
+      "role": "assistant"
+     },
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Correct, and the concurrence should be 1."
+      ]
+     }
+    }
+   },
+   "n5": {
+    "id": "n5",
+    "parent": "n4",
+    "message": {
+     "author": {
+      "role": "user"
+     },
+     "content": {
+      "content_type": "text",
+      "parts": [
+       "Let's test that theory."
+      ]
+     }
+    }
+   }
+  }
+ }
+]
